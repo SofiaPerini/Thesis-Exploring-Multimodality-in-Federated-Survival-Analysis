@@ -5,7 +5,7 @@ import os
 import copy
 import wandb
 import statistics
-from src.custom_optims.radam import RAdam
+from custom_optims.radam import RAdam
 import torch
 import torch.optim as optim
 from torch.nn.utils import parameters_to_vector, vector_to_parameters
@@ -16,11 +16,9 @@ from torch.nn.utils import parameters_to_vector, vector_to_parameters
 #from models.model_SNNOmics import SNNOmics
 #from models.model_MaskedOmics import MaskedOmics
 #from models.model_MCATPathways import MCATPathways
-from src.models.model_SurvPath import SurvPath
+from models.model_SurvPath import SurvPath
 
-# remove comment below:  TODO
 # from models.model_SurvPath_with_nystrom import SurvPath_with_nystrom
-
 #from models.model_TMIL import TMIL
 #from models.model_motcat import MCATPathwaysMotCat
 from sksurv.metrics import concordance_index_censored, concordance_index_ipcw, brier_score, integrated_brier_score, cumulative_dynamic_auc
@@ -37,8 +35,8 @@ from transformers import (
 import torch
 from torch.nn.utils.rnn import pad_sequence
 
-from src.utils.general_utils import _get_split_loader, _print_network, _save_splits, save_model
-from src.utils.loss_func import NLLSurvLoss
+from utils.general_utils import _get_split_loader, _print_network, _save_splits, save_model
+from utils.loss_func import NLLSurvLoss
 
 import torch.optim as optim
 

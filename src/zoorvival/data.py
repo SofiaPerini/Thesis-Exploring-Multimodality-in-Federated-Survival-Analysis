@@ -13,7 +13,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.feature_selection import VarianceThreshold
 from typing import Optional
 
-from src.zoorvival.const import BASE_DATA_DIR, AVAILABLE_DATASETS
+from zoorvival.const import BASE_DATA_DIR, AVAILABLE_DATASETS
 
 __all__ = ["load_tcga_data", "TCGADataBag", "TCGADataSplit"]
 

@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 
-from src.zoorvival.data import TCGADataSplit
+from zoorvival.data import TCGADataSplit
 
 __all__ = ["TCGADataset", "as_torch_dataset"]
 
