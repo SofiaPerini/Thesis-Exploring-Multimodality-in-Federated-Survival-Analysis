@@ -33,35 +33,18 @@ def main(args):
         print('Tuning hyperparameters with Ray Tune')
         run_tuning(args)
     else:
-        find_params = False
-        new = True
-        debug = False
-        log_in_same_run = False
-        run_name = 'ovy9x3zu'
-        run = None
-
+        # reduce space for wandb
         exclude_keys = ['study', 'task', 'results_dir', 'test_dir', 'val_dir', 'train_dir', 'tune', 'loader_sampler', 'use_nystrom', 'modality', 'fusion']
         config = {k: v for k, v in vars(args).items() if k not in exclude_keys}
 
+        run = None
+        
         if args.fed_method == 'fedprox':
             wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method + '_zoo-data', name='split' + str(args.split_num), group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '_mu: ' + str(args.mu) + '__pat-' +str(args.patience), config=vars(args))
         elif args.fed_method == 'fedopt':
             wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method+ '_zoo-data', name='split' + str(args.split_num), group= args.fed_method + '-' + args.fed_test_options + '_lr-client: ' + str(args.lr_client) + '_decay: ' + str(args.reg) + '_lr-server: ' + str(args.lr_server), config=vars(args))
-        elif args.fed_method == 'fedavg':  # TODO
-
-            if log_in_same_run:
-                run = wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method + '_debug', name='split' + str(args.split_num), group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '_dim-proj-' + str(args.wsi_projection_dim) + '_lay1-' + str(args.encoding_layer_1_dim), id = run_name)
-            
-            elif debug:
-                wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method + '_debug', name='split' + str(args.split_num), group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '_dim-proj-' + str(args.wsi_projection_dim) + '_lay1-' + str(args.encoding_layer_1_dim))
-            elif new:
-                wandb.init(project= str(args.study) + "_fed_horizontal_" + args.fed_method + '_zoo-data', name='split' + str(args.split_num) + '_pat-' + str(args.patience), group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '__pat-' +str(args.patience), config=config)
-            elif find_params:
-                wandb.init(project="find_new_model-change_dimensions", name='split' + str(args.split_num) + '__v2__', group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg)  + '_dim-proj-' + str(args.wsi_projection_dim) + '_lay1-' + str(args.encoding_layer_1_dim)+ '__v2__', config=vars(args))
-            elif args.wsi_projection_dim== 256 and args.encoding_layer_1_dim == 256:
-                wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method, name='split' + str(args.split_num) + '__v2__', group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg)  + '_dim-proj-' + str(args.wsi_projection_dim) + '_lay1-' + str(args.encoding_layer_1_dim), config=vars(args))
-            else:
-                wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method, name='split' + str(args.split_num) + '__v2__', group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '_dim-proj-' + str(args.wsi_projection_dim) + '_lay1-' + str(args.encoding_layer_1_dim) + '__v2__', config=vars(args))
+        elif args.fed_method == 'fedavg':
+            wandb.init(project= str(args.study) + "_fed_horizontal_" + args.fed_method + '_zoo-data', name='split' + str(args.split_num) + '_pat-' + str(args.patience), group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '__pat-' +str(args.patience), config=config)
         elif args.fed_method == 'scaffold':
             wandb.init(project=str(args.study) + "_fed_horizontal_" + args.fed_method + '_zoo-data', name='split' + str(args.split_num), group= args.fed_method + '-' + args.fed_test_options + '_lr: ' + str(args.lr) + '_decay: ' + str(args.reg) + '__ep-' + str(args.max_epochs) + '_r0', config=vars(args))
 
@@ -82,34 +65,6 @@ if __name__ == "__main__":
     
     #----> Prep
     args = _prepare_for_experiment(args)
-    '''
-    if args.fed_test_options == 'centralized' and args.fed_method == 'fedavg' and args.wsi_projection_dim == 64 and args.encoding_layer_1_dim == 64:
-        if args.lr == 0.00005 and args.reg == 0.0001 and args.split_num == 0:
-            print('already done')
-            exit(0)
-        if args.lr == 0.00005 and args.reg == 0.00001 and args.split_num == 0:
-            print('already done')
-            exit(0)
-            ''''''
-    if args.fed_test_options == 'islands' and args.fed_method == 'fedavg' and args.wsi_projection_dim == 64 and args.encoding_layer_1_dim == 64:
-        if args.lr == 0.00005 and args.reg == 0.1 and args.split_num == 0:
-            print('already done')
-            exit(0)
-        
-        if args.lr == 0.0001 and args.reg == 0.1 and args.split_num == 0:
-            print('already done')
-            exit(0)'''
-    if args.fed_test_options == 'centralized' and args.fed_method == 'fedavg' and args.study == 'tcga_UCEC':
-        if args.split_num == 0 and args.reg == 0.0001:
-            if args.lr in [0.00005, 0.0001, 0.0005]:
-                print('already done')
-                exit(0)
-        if args.split_num == 0 and args.reg == 0.01:
-            if args.lr in [0.00005]:
-                print('already done')
-                exit(0)
-            
-    
     
     #----> create dataset factory
     args.dataset_factory = SurvivalDatasetFactory(
