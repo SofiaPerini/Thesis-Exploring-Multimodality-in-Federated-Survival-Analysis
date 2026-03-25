@@ -18,6 +18,9 @@ Currently, no studies in the existing literature have investigated the applicati
 ### Repository
 This repository includes the experiment code, the notebooks to create the data splits, the notebooks for the visualisation of the results, and the data splits themselves. The raw datasets are not included due to the large size of some CSV files.
 
+## Data
+WSI data was retrieved using the code available here.: https://github.com/archettialberto/zoorvival/tree/wsi 
+
 ## Model
 This work and the model were built on top of SurvPath, a state-of-the-art multimodal survival analysis model; the original code can be found here https://github.com/mahmoodlab/SurvPath
 
