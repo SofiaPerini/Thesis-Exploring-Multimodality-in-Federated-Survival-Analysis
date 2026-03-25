@@ -26,7 +26,7 @@ ENV DGL_BUILD_GRAPHBOLT=0
 ENV DGL_LOAD_GRAPHBOLT=0
 
 # wandb key
-ENV WANDB_API_KEY=5377528e74cd6e5c220d68f194d7d583e5e8e01b
+ENV WANDB_API_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # for running the notebooks
 RUN pip install jupyter ipykernel ipywidgets
